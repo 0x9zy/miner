@@ -1,2 +1,2 @@
 # miner
-XMRig & ethash miners
+XMRig & Phoenix Miners
