@@ -1,2 +1,2 @@
-# miner
+# Miner
 XMRig & Phoenix Miner
