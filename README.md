@@ -1,2 +1,2 @@
 # Miners
-XMRig (v6.10.0) & Phoenix (v5.5c)
+XMRig (v6.11.2) & Phoenix (v5.5c)
